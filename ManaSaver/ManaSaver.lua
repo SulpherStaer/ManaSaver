@@ -29,7 +29,7 @@ boolFirstMSaverCall = true;
 -- the minimum amount for heal over time spells
 local healvalues = {
     -- Updated Healing Touch medians to Turtle WoW values (median heal per rank).
-    [MANASAVE_SPELL_HEALTOUCH] = {44,100,219,404,633,818,1028,1313,1656,2060,2472},
+    [MANASAVE_SPELL_HEALTOUCH] = {52,113,244,446,695,895,1121,1428,1797,2231,2678},
 	[MANASAVE_SPELL_REGROWTH] = {191,346,507,669,841,1063,1345,1677,2081},
 	[MANASAVE_SPELL_REJUVENATION] = {36,60,120,180,246,306,390,492,612,756,888},
 	[MANASAVE_SPELL_LESSHEAL] = {50,78,146},
@@ -296,7 +296,7 @@ function MSaver_SpeakSpell(varTarget, strSpell, numRank)
 	if (ManaSaverSV.QuietMode == "Self") then
 		local outputLine = MANASAVE_FONT_LTYELLOW .. read
 		if ManaSaver_LastEfficiency then
-			outputLine = outputLine .. string.format("1 mp healed %.2f ", ManaSaver_LastEfficiency)
+			outputLine = outputLine .. string.format(" 1 mp healed %.2f hp", ManaSaver_LastEfficiency)
 		end
 		DEFAULT_CHAT_FRAME:AddMessage(outputLine)
 
