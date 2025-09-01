@@ -9,7 +9,7 @@ MANASAVE_FONT_WHITE = "|cffffffff";
 MANASAVE_FONT_GREEN = "|cff20ff20";
 MANASAVE_FONT_BLUE = "|cff2020ff";
 MANASAVE_FONT_LTYELLOW = "|cffffff9a";
-MANASAVE_FONT_GRAY = "|cff808080"; 
+MANASAVE_FONT_GRAY = "|cff808080";
 
 MANASAVE_VERSION = "2.4.6";
 
@@ -35,14 +35,16 @@ MANASAVE_SPELL_FLASHOFLIGHT = "Flash of Light";
 MANASAVE_SPELL_LESSHEALWAVE = "Lesser Healing Wave";
 MANASAVE_SPELL_HEALWAVE = "Healing Wave";
 MANASAVE_SPELL_CHAINHEAL = "Chain Heal";
+MANASAVE_SPELL_TRANQUILITY = "Tranquility";
 -- Talents with increase percentage of healing
-MANASAVE_TALENT_IMPREJUVE = "Improved Rejuvenation";
+MANASAVE_TALENT_GENESIS = "Genesis";
 MANASAVE_TALENT_GIFTNATURE = "Gift of Nature";
 MANASAVE_TALENT_HEALLIGHT = "Healing Light";
 MANASAVE_TALENT_IMPRENEW = "Improved Renew";
 MANASAVE_TALENT_SPIRITHEAL = "Spiritual Healing";
 MANASAVE_TALENT_PURIFICATION = "Purification";
 MANASAVE_TALENT_SPIRITGUIDANCE = "Spiritual Guidance";
+MANASAVE_TALENT_IMPRTRANQ = "Improved Tranquility";
 -- Talents with decreased spell mana costs
 MANASAVE_TALENT_TRANQSPIRIT = "Tranquil Spirit";
 MANASAVE_TALENT_IMPHEALING = "Improved Healing";
@@ -87,7 +89,7 @@ MANASAVE_CHAT_POSTJOKE16 = "XPLAYER has lost so much blood that even a vampire w
 MANASAVE_CHAT_POSTJOKE17 = "It looks like XPLAYER is about to die.  CHEER!!!.  Oops, I did not mean to say that out loud.  Lets heal him/her with XSPELLNAME (Rank XRANK).";
 MANASAVE_CHAT_POSTJOKE18 = "[*said in a Scottish accent*] I can't hold her together any longer CAPTAIN!!! I think she is gonna BLOW!!! Recommend healing XPLAYER with XSPELLNAME (Rank XRANK).";
 MANASAVE_CHAT_POSTJOKE19 = "XPLAYER is an absolute LOSER!!!  I bet I could fight better than that.  Oh wait, I am a healer and will die without any support.  I had better use XSPELLNAME (Rank XRANK).";
-MANASAVE_CHAT_POSTJOKE20 = "So, an orc with a parrot walked into a bar.  The bartender said . . . Crap, I should stop telling jokes, XPLAYER is about to die!  I should pay attention and cast XSPELLNAME (Rank XRANK).";			
+MANASAVE_CHAT_POSTJOKE20 = "So, an orc with a parrot walked into a bar.  The bartender said . . . Crap, I should stop telling jokes, XPLAYER is about to die!  I should pay attention and cast XSPELLNAME (Rank XRANK).";
 MANASAVE_CHAT_POSTJOKE21 = "I sure hope that XPLAYER is a Grateful Dead fan, because he/she is going to be come the literal translation of the band name.  Quick, I will heal with XSPELLNAME (Rank XRANK)!";
 MANASAVE_CHAT_POSTJOKE22 = "XPLAYER looks like a rat that has been run over by a Mack truck!!!  Perhaps XSPELLNAME (Rank XRANK) will increase his/her charisma.";
 MANASAVE_CHAT_POSTJOKE23 = "XPLAYER is becoming my MEAT SHIELD and I like my steak extra-rare.  Pass me the A-1 sauce while I cast XSPELLNAME (Rank XRANK).";
@@ -187,7 +189,7 @@ if ( GetLocale() == "deDE" ) then
 	MANASAVE_CHAT_POSTJOKE17 = "Sieht aus als ob XPLAYER stirbt. JUHUU! ... oh, hab ich das laut gesagt? ... Heilen wir mal mit XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE18 = "Sieht aus als ob XPLAYER stirbt. JUHUU! ... oh, hab ich das laut gesagt? ... Heilen wir mal mit XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE19 = "XPLAYER kann ja wirklich GARNICHTS! Ich wette ich mach mehr Schaden als er. Oh, moment. Ich bin ein Heiler, der ohne Unterst\195\188tzung wohl tot ist... Dann doch besser XSPELLNAME (Rang XRANK).";
-	MANASAVE_CHAT_POSTJOKE20 = "Also, ein Ork und ein Papagei kommen in die Bar. Sagt der Barkeeper... Oh, ich erz\195\164hle nachher weiter, XPLAYER stirbt wenn ich nicht sofort XSPELLNAME (Rang XRANK) ansetze.";			
+	MANASAVE_CHAT_POSTJOKE20 = "Also, ein Ork und ein Papagei kommen in die Bar. Sagt der Barkeeper... Oh, ich erz\195\164hle nachher weiter, XPLAYER stirbt wenn ich nicht sofort XSPELLNAME (Rang XRANK) ansetze.";
 	MANASAVE_CHAT_POSTJOKE21 = "Ich hoffe XPLAYER mag die Grateful Dead - er wird bald zur w\195\182rtlichen \195\188bersetzung... Also schnell, XSPELLNAME (Rang XRANK)!";
 	MANASAVE_CHAT_POSTJOKE22 = "Hat jemand das Nummerschild vom LKW, der XPLAYER \195\188berfahren hat? Nein? War sowas wie XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE23 = "XPLAYER wird gerade zu Hackfleisch. Gut durch bitte. Und reicht mal die scharfe Sauce, w\195\164hrend ich XSPELLNAME (Rang XRANK) loslasse.";
@@ -215,7 +217,7 @@ if ( GetLocale() == "deDE" ) then
 	MANASAVE_OPTIONS_MACRO_RESET = "zur\195\188cksetzen";
 	MANASAVE_OPTIONS_MACRO_CREATED = " Makro erzeugt.";
 	MANASAVE_OPTIONS_MACRO_UPDATED = " Makro erneuert.";
-	
+
 end
 
 
@@ -266,7 +268,7 @@ if (GetLocale() == "frFR") then
 	MANASAVE_CHAT_SPELLFAILPOWER = "<ManaSaver>: Echec du sort : Un sort plus puissant est d\195\169j\195\160 actif.";
 	MANASAVE_CHAT_SPELLFAILMOVE = "<ManaSaver>: Echec du sort : Vous avez boug\195\169 lors de l'incantation.";
 	MANASAVE_CHAT_MSAVERNOSPELL = "<ManaSaver>: Erreur : ManaSaver n'a pas de donn\195\169e sur ce sort.";
-	MANASAVE_CHAT_PLAYERNOKNOWSPELL = "<ManaSaver>: Erreur : Votre personnage ne connait pas ce sort ou ce rang de sort.";	
+	MANASAVE_CHAT_PLAYERNOKNOWSPELL = "<ManaSaver>: Erreur : Votre personnage ne connait pas ce sort ou ce rang de sort.";
 	-- Chat posts regarding casting of spells
 	MANASAVE_CHAT_POSTDEFAULT = "Je soigne XPLAYER avec XSPELLNAME (Rang XRANK)";
 	-- Chat jokes regarding casting of spells
@@ -289,12 +291,12 @@ if (GetLocale() == "frFR") then
 	MANASAVE_CHAT_POSTJOKE17 = "On dirait que XPLAYER va mourrir. ENFIN !!!. Oops, je voulais pas le dire tout haut. Soignons le/la avec XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE18 = "Oull\195\160, XPLAYER \195\167\195\160 ne va pas fort. Je te fais un prix pour XSPELLNAME (Rang XRANK), tu me le paieras plus tard.";
 	MANASAVE_CHAT_POSTJOKE19 = "XPLAYER est vraiment un bon \195\160 rien !!! Je suis certain que je me battrais mieux que \195\167\195\160. Heu attendez, je suis un soigneur et je vais mourrir sans aide. Je ferais mieux d'utiliser XSPELLNAME (Rang XRANK).";
-	MANASAVE_CHAT_POSTJOKE20 = "Donc, un orc avec un perroquet entre dans le bar. Le barman dit ... Zut, je devrais peut-\195\170tre arr\195\170ter de dire des b\195\170tises sinon XPLAYER va y passer! Je vais faire plus attention et lancer XSPELLNAME (Rang XRANK).";			
+	MANASAVE_CHAT_POSTJOKE20 = "Donc, un orc avec un perroquet entre dans le bar. Le barman dit ... Zut, je devrais peut-\195\170tre arr\195\170ter de dire des b\195\170tises sinon XPLAYER va y passer! Je vais faire plus attention et lancer XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE21 = "hmm...laisser la faucheuse faire son oeuvre ou pas ? Soignons donc XPLAYER avec XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE22 = "ARRETES DE SAIGNER PARTOUT SUR LE TAPIS, je viens juste de le faire laver. Arr\195\170tons les saignements de XPLAYER avec XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE23 = "Jolis tatouages que tu as partout XPLAYER ! Ah, ce sont des blessures ouvertes ? Je m'en occupe avec XSPELLNAME (Rang XRANK).";
 	MANASAVE_CHAT_POSTJOKE24 = "N'ait pas peur XPLAYER, je m'occupe de toi et il n'y a que la d\195\169capitation que XSPELLNAME (Rang XRANK) ne soigne pas !";
-	
+
 	-- Options Window
 	MANASAVE_OPTIONS_TITLE = "Options de ManaSaver";
 	MANASAVE_OPTIONS_TABOPTIONS = "Options";
@@ -318,5 +320,4 @@ if (GetLocale() == "frFR") then
 	MANASAVE_OPTIONS_MACRO_CREATED = " macro cr\195\169\195\169e.";
 	MANASAVE_OPTIONS_MACRO_UPDATED = " macro mise \195\160 jour.";
 
-end	
-
+end

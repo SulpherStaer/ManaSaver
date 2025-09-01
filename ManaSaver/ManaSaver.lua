@@ -29,8 +29,8 @@ boolFirstMSaverCall = true;
 local healvalues = {
     -- Updated Healing Touch medians to Turtle WoW values (median heal per rank).
     [MANASAVE_SPELL_HEALTOUCH] = {44,100,219,404,633,818,1028,1313,1656,2060,2472},
-	[MANASAVE_SPELL_REGROWTH] = {91,176,257,339,431,543,685,857,1061},						
-	[MANASAVE_SPELL_REJUVENATION] = {32,56,116,180,244,304,388,488,608,756,888},			
+	[MANASAVE_SPELL_REGROWTH] = {91,176,257,339,431,543,685,857,1061},
+	[MANASAVE_SPELL_REJUVENATION] = {32,56,116,180,244,304,388,488,608,756,888},
 	[MANASAVE_SPELL_LESSHEAL] = {50,78,146},
 	[MANASAVE_SPELL_HEAL] = {318,460,604,758},
 	[MANASAVE_SPELL_GRTHEAL] = {956,1219,1523,1902,2080},
@@ -84,16 +84,14 @@ local healmana = {
 
 -- Library of Talents with bonus healing values, numbers are percent bonus to heal
 local talentpercentbonus = {
-    --[MANASAVE_TALENT_IMPREJUVE] = {-- Improved Rejuvenation talent removed in Turtle WoW
-    --    ["Spells"] = {MANASAVE_SPELL_REJUVENATION},
-    --    ["Ranks"] = {5,10,15}
-    --},
+	[MANASAVE_TALENT_GENESIS] = {["Spells"] = {MANASAVE_SPELL_REJUVENATION, MANASAVE_SPELL_REGROWTH},["Ranks"] = {5, 10, 15}},
 	[MANASAVE_TALENT_GIFTNATURE] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_HEALLIGHT] = {["Spells"] = {MANASAVE_SPELL_HOLYLIGHT,MANASAVE_SPELL_FLASHOFLIGHT},["Ranks"] = {4,8,12}},
 	[MANASAVE_TALENT_IMPRENEW] = {["Spells"] = {MANASAVE_SPELL_RENEW},["Ranks"] = {5,10,15}},
 	[MANASAVE_TALENT_SPIRITHEAL] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_PURIFICATION] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_SPIRITGUIDANCE] = {["Spells"] = {"All"},["Ranks"] = {0.05,0.10,0.15,0.20,0.25}},
+	[MANASAVE_TALENT_IMPRTRANQ] = {["Spells"] = {MANASAVE_SPELL_TRANQUILITY},["Ranks"] = {20, 40}},
 };
 
 -- Library of Talents which lessen the mana cost of certain spells
@@ -126,21 +124,21 @@ function MSaver_initialize()
 	this:RegisterEvent("CHAT_MSG_SPELL_FAILED_LOCALPLAYER");
 	this:RegisterEvent("CHARACTER_POINTS_CHANGED");
 	this:RegisterEvent("SPELLS_CHANGED");
-	
+
 	-- Slash Command Syntax
 	SlashCmdList["MANASAVERQUIET"] = MSaver_Quiet;
 	SLASH_MANASAVERQUIET1 = "/msaverq";
 	SlashCmdList["MANASAVEROPTIONS"] = MSaver_SlashOpenOptions;
-	SLASH_MANASAVEROPTIONS1 = "/msaveroptions";	
-	
+	SLASH_MANASAVEROPTIONS1 = "/msaveroptions";
+
 	-- add our very first chat command!
-	--DEFAULT_CHAT_FRAME:AddMessage(string.format(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_VERSION, ManaSaverVersion));	
+	--DEFAULT_CHAT_FRAME:AddMessage(string.format(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_VERSION, ManaSaverVersion));
 	DEFAULT_CHAT_FRAME:AddMessage(string.gsub(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_VERSION, "NUMVER", MANASAVE_VERSION));
 	-- initialize talents
 	MSaver_GetTalents();
 	-- initialize spells
 	MSaver_GetSpells();
-	
+
 	-- works with the initialized options in ManaSaverOptions.lua
 	ManaSaver_OptionsLoaded();
 
@@ -151,16 +149,16 @@ function MSaver_initialize()
 	--else
 	--	ManaSaverSV.PlusHeal = 0;
 	--end
-	
+
 end
 
 function MSaver_OnEvent(event)
 	-- Registers the events, used for error handling
-	if (event == "CHAT_MSG_SPELL_FAILED_LOCALPLAYER") then	
-		local failReason = string.sub(arg1,strfind(arg1,": ")+2);	
+	if (event == "CHAT_MSG_SPELL_FAILED_LOCALPLAYER") then
+		local failReason = string.sub(arg1,strfind(arg1,": ")+2);
 		err_event = failReason;
 		return;
-	end	
+	end
 	-- If the talent points change, collect the new talents and spells
 	if (event == "CHARACTER_POINTS_CHANGED") then
 		MSaver_GetTalents();
@@ -179,7 +177,7 @@ function MSaver_SlashOpenOptions()
 end
 
 function MSaver_Quiet(msg)
- 	-- Manages the Quiet Mode       
+ 	-- Manages the Quiet Mode
 	if(msg == 'on') then
 		ManaSaverSV.QuietMode = "On";
     	MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_QUIETON)
@@ -204,7 +202,7 @@ function MSaver_Quiet(msg)
 		MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_QUIETMENU3)
 		MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_QUIETMENU4)
     end
-    
+
     --Updates the options window
 	MSaver_OptionsQuietOnClick(ManaSaverSV.QuietMode);
 end
@@ -222,30 +220,30 @@ end
 
 function MSaver_PostSpellInChat(vartarget, strSpell, numRank)
 -- Function posts spell information to the chat window, either using SpeakSpell or the error message
-	
-	
+
+
 	-- Checks to see if the user has enabled the custom messages
 	if ManaSaverSV.CustomError then
-		if (err_event == "Out of range.") then				
+		if (err_event == "Out of range.") then
 			MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_SPELLFAILRANGE)
 			err_event = nil;
-			return;										
-		elseif (err_event == "Target not in line of sight.") then		
+			return;
+		elseif (err_event == "Target not in line of sight.") then
 			MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_SPELLFAILSIGHT)
 			err_event = nil;
-			return;			
-		elseif (err_event == "Not enough mana.") then		
+			return;
+		elseif (err_event == "Not enough mana.") then
 			MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_SPELLFAILMANA)
 			err_event = nil;
-			return;		
-		elseif (err_event == "A more powerfull spell is already active.") then	
+			return;
+		elseif (err_event == "A more powerfull spell is already active.") then
 			MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_SPELLFAILPOWER)
 			err_event = nil;
-			return;	
-		elseif (err_event == "Can't do that while moving.") then	
+			return;
+		elseif (err_event == "Can't do that while moving.") then
 			MSaver_writeLine(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_SPELLFAILMOVE)
 			err_event = nil;
-			return;	
+			return;
 		end
 	end
 
@@ -263,9 +261,9 @@ function MSaver_SpeakSpell(varTarget, strSpell, numRank)
 	if UnitExists(varTarget) and (varTarget == "player") then
 		OnSelf = true;
 	elseif (spellTarget == "nil") then
-		OnSelf = true; 
-	end		
-	if (ManaSaverSV.QuietMode == "Off") then	
+		OnSelf = true;
+	end
+	if (ManaSaverSV.QuietMode == "Off") then
 		if rand == 1 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE1, spellTarget, strSpell, numRank); end
         if rand == 2 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE2, spellTarget, strSpell, numRank); end
         if rand == 3 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE3, spellTarget, strSpell, numRank); end
@@ -289,11 +287,11 @@ function MSaver_SpeakSpell(varTarget, strSpell, numRank)
 		if rand == 21 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE21, spellTarget, strSpell, numRank); end
 		if rand == 22 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE22, spellTarget, strSpell, numRank); end
 		if rand == 23 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE23, spellTarget, strSpell, numRank); end
-		if rand == 24 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE24, spellTarget, strSpell, numRank); end		
-	else		
-		read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTDEFAULT, spellTarget, strSpell, numRank);		
-	end	
-	
+		if rand == 24 then read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTJOKE24, spellTarget, strSpell, numRank); end
+	else
+		read = MSaver_InsertSpellInfo(MANASAVE_CHAT_POSTDEFAULT, spellTarget, strSpell, numRank);
+	end
+
 	-- ManaSaverq Self mode
 	if (ManaSaverSV.QuietMode == "Self") then
 		DEFAULT_CHAT_FRAME:AddMessage(MANASAVE_FONT_LTYELLOW..read)
@@ -309,7 +307,7 @@ function MSaver_SpeakSpell(varTarget, strSpell, numRank)
 		elseif (UnitIsPlayer("player", varTarget) and (not UnitCreatureFamily(varTarget)) and (not OnSelf)) then
 			SendChatMessage(read, "WHISPER", nil, spellTarget)
 		 -- must be a pet
-		elseif (not OnSelf) then 
+		elseif (not OnSelf) then
 			SendChatMessage(read, "Say")
 		-- If on player, nothing posted
 		end
@@ -324,16 +322,16 @@ end
 -- XRANK = numRank
 function MSaver_InsertSpellInfo (strMessage,spellTarget, strSpell, numRank)
 	local strReturn = strMessage;
-	
+
 	if (spellTarget) then
 		strReturn = string.gsub(strReturn, "XPLAYER", spellTarget);
 	end
 	if (strSpell) then
 		strReturn = string.gsub(strReturn, "XSPELLNAME", strSpell);
-	end	
+	end
 	if (numRank) then
 		strReturn = string.gsub(strReturn, "XRANK", numRank);
-	end	
+	end
 
 	return strReturn;
 end
@@ -390,7 +388,7 @@ function MSaver_CalcTalentsHealPercent(strSpell)
 		end
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage(string.format("Percent is - %g",(1 + (numHealPercent*0.01))));
-	
+
 	-- Check to see if the user has enabled talent calculations to be included
 	if ManaSaverSV.IncTalents then
 		return (1 + (numHealPercent*0.01));
@@ -406,7 +404,7 @@ function MSaver_CalcTalentsSpiritGuidance()
 	local numPlusHeal = 0;
 	local numSpiritMult;
 	local numUnitSpirit;
-	
+
 	-- Cycle through known talents
 	for name, rank in pairs(ManaSave_PlayerTalents) do
 		-- Check to see if Spiritual Guidance is known
@@ -419,7 +417,7 @@ function MSaver_CalcTalentsSpiritGuidance()
 		end
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage(string.format("Spiritual Guidance Plus Heal is - %g",(numPlusHeal)));
-	
+
 	-- Check to see if the user has enabled talent calculations to be included
 	if ManaSaverSV.IncTalents then
 		return numPlusHeal;
@@ -431,6 +429,23 @@ end
 -- This is the function that gathers information about the players talents
 -- and determines if the talents yield any reduction in healing spell mana cost
 -- Returns the actual multiplier, so a 2% reduction returns 0.98
+
+
+--- helper function for MSaver_CalcTalentsLessManaPercent
+
+local function MSaver_IsTreeOfLife()
+    for i = 1, 40 do
+        local name = UnitBuff("player", i)
+        if not name then break end
+        if name == "Tree of Life Form" then
+            return true
+        end
+    end
+    return false
+end
+
+
+
 function MSaver_CalcTalentsLessManaPercent(strSpell)
 	local numManaPercent = 0;
 	local varTalentDetail
@@ -451,6 +466,9 @@ function MSaver_CalcTalentsLessManaPercent(strSpell)
 				end
 			end
 		end
+	end
+	if (strSpell == MANASAVE_SPELL_REJUVENATION or strSpell == MANASAVE_SPELL_REGROWTH) and MSaver_IsTreeOfLife() then
+		numManaPercent = numManaPercent + 20
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage(string.format("Percent less mana is - %g",(1 - (numManaPercent*0.01))));
 
@@ -480,10 +498,10 @@ function MSaver_SpellRankKnown(strSpell, numRank)
     --strRank = MANASAVE_RANK.." "..numRank;
     --repeat
     --    searchName, r = GetSpellName(id, BOOKTYPE_SPELL)
-    --    if (searchName == strSpell and strRank == r) then boolReturn = true; end 
+    --    if (searchName == strSpell and strRank == r) then boolReturn = true; end
     --    id = id + 1
     --until not searchName
-    
+
     return boolReturn
 end
 
@@ -492,13 +510,13 @@ function MSaver_GetSpells()
 	local id = 1
 	local spellname,r = GetSpellName(id,BOOKTYPE_SPELL);
 	local samespellname = spellname
-	
+
 	-- Reset spells
 	ManaSave_PlayerSpells = {};
-	
+
     while ( spellname ) do
         spellname, r = GetSpellName(id, BOOKTYPE_SPELL)
-        
+
         if (healvalues[spellname]) then
         	-- Checks to see if the spell name is the same
 			if (not(samespellname == spellname)) then
@@ -509,12 +527,12 @@ function MSaver_GetSpells()
           	--DEFAULT_CHAT_FRAME:AddMessage(spellname..", "..r..","..id)
           	local _,numEnd = string.find(r,MANASAVE_RANK);
           	local numEndRank = tonumber(string.sub(r,(numEnd+2)))
-          	ManaSave_PlayerSpells[spellname][numEndRank] = id; 
+          	ManaSave_PlayerSpells[spellname][numEndRank] = id;
         end
         id = id + 1
         spellname,r = GetSpellName(id,BOOKTYPE_SPELL);
     end
-    
+
     --for a,b in pairs(ManaSave_PlayerSpells) do
     --	for c,d in pairs(ManaSave_PlayerSpells[a]) do
     --		DEFAULT_CHAT_FRAME:AddMessage(a..", "..c..", "..d)
@@ -541,7 +559,7 @@ end
 -- **************************************************
 function MSaver_ListT(strName)
 	local strTName
-	
+
 	if strName == "talents" then
 		strTName = ManaSave_PlayerTalents;
 		for c,d in pairs(strTName) do
@@ -563,7 +581,7 @@ end
 
 function MSaver_TestT()
 	local tbl = {}
-	
+
 	tbl["Field1"] = {};
 	tbl["Field1"]["Field21"] = 1;
 	tbl["Field1"]["Field22"] = 2;
@@ -606,7 +624,7 @@ function MSaver_IsPartyRaidPet(varTarget)
 	local boolReturn = false;
 
 	if ((UnitIsPlayer("player", varTarget) and (UnitCreatureFamily(varTarget))) and (not (UnitHealthMax(varTarget) == 100))) then boolReturn = true; end
-	
+
 	--if boolReturn then DEFAULT_CHAT_FRAME:AddMessage("Party pet");
 	--	else DEFAULT_CHAT_FRAME:AddMessage("Not a party pet"); end
 	return boolReturn
@@ -622,20 +640,20 @@ end
 function MSaver(strSpell, numRank, overheal, targ)
 	local varOverheal = overheal;
 	if (not varOverheal) then varOverheal = 0; end
-	
+
 	local target = targ;
 	if (not target) then target = "target"; end  -- no target was passed, use what the player's targetting
 	if (not UnitIsFriend("player",target)) then target = "player"; end -- if enemy targeted we want to cast on "player"
 	if UnitIsEnemy("player","target") then target = "player"; end -- if in PVP or dueling, then target self
 	if (IsAltKeyDown()) then target = "player"; end  -- if the player uses the alt key when casting, then cast on self without changing target
 	if (targ) then target = targ; end  -- Handle interface with click target based mods
-	
+
 	local numDelta = nil;  -- This is the health delta variable
 	local stkLevel = healvalues[strSpell];
 	local ranklevels = heallevels[strSpell];
 	local lvlmatters = levelmatters[strSpell];
 	local spellMana = healmana[strSpell];
-	
+
 	-- Check to see if the user has enabled the Plus Heal and Plus Spirit Items in calculations
 	local numHealItemVal
 	if ManaSaverSV.IncHealItems then
@@ -647,7 +665,7 @@ function MSaver(strSpell, numRank, overheal, targ)
 		else
 			ManaSaverSV.PlusHeal = 0;
 			ManaSaverSV.PlusSpirit = 0;
-		end 	
+		end
 		--numHealItemVal = ManaSaverSV.PlusHeal
 		--ManaSaverSV.PlusHeal;
 	else
@@ -655,9 +673,9 @@ function MSaver(strSpell, numRank, overheal, targ)
 	end
 	-- Include Spiritual Guidance if applicable
 	numHealItemVal = numHealItemVal + (MSaver_CalcTalentsSpiritGuidance());
-	
+
 	local highrank = numRank;
-	
+
 	-- if player spell and talent library have not loaded, which they sometimes
 	-- don't do when game first started, load them
 	if (boolFirstMSaverCall) then
@@ -665,33 +683,33 @@ function MSaver(strSpell, numRank, overheal, targ)
 		MSaver_GetSpells();
 		boolFirstMSaverCall = false;
 	end
-	
+
 	if (not highrank) then highrank = table.getn(ranklevels) end  -- no max rank was passed, use the highest available
-		
+
 	if (not stkLevel) then -- we don't have data for this spell, BAIL! BAIL!
 		DEFAULT_CHAT_FRAME:AddMessage(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_MSAVERNOSPELL);
-		return end 
-		
+		return end
+
 	if (not(MSaver_SpellRankKnown(strSpell, numRank)) and not(strSpell == MANASAVE_SPELL_ALLHEAL)) then  -- the player does not know that spell or rank, BAIL
 		DEFAULT_CHAT_FRAME:AddMessage(MANASAVE_FONT_LTYELLOW..MANASAVE_CHAT_PLAYERNOKNOWSPELL);
 		return end
-	
+
 	if (strSpell == MANASAVE_SPELL_ALLHEAL) then		-- Handle priest's Less/Heal/Greater
 		if ((UnitHealth(target) < 101) and (UnitHealthMax(target) ~= UnitHealth(target))) then -- HP info is only %, not absolute value
 		--if (not (UnitInParty(target) or UnitInRaid(target) or MSaver_IsPartyRaidPet(target) or (target=="player"))	-- HP info is only %, not absolute value
-		--	and (UnitHealthMax(target) ~= UnitHealth(target))) then		-- Target needs healing			
+		--	and (UnitHealthMax(target) ~= UnitHealth(target))) then		-- Target needs healing
 			local numModRank
-			if (highrank > 7) then 
+			if (highrank > 7) then
 				strSpell = MANASAVE_SPELL_GRTHEAL;
 				numModRank = highrank - 7;
-			elseif (highrank > 3) then 
+			elseif (highrank > 3) then
 				strSpell = MANASAVE_SPELL_HEAL;
 				numModRank = highrank - 3;
-			else 
+			else
 				strSpell = MANASAVE_SPELL_LESSHEAL;
-				numModRank = highrank; 
+				numModRank = highrank;
 			end
-			
+
 			MSaver_FindHighSpellMana(numModRank,strSpell,target)
 		else -- Target is in party, we have full HP info to use.
 			numDelta = (UnitHealthMax(target) - UnitHealth(target));
@@ -702,33 +720,33 @@ function MSaver(strSpell, numRank, overheal, targ)
 					local numManaMult = MSaver_CalcTalentsLessManaPercent(strSpell);
 					--DEFAULT_CHAT_FRAME:AddMessage(string.format("numDelta - %g", numDelta));
 					--DEFAULT_CHAT_FRAME:AddMessage(string.format("Lvl-%d, Mult-%g, stkLev-%g, item-%g, numD-%g, calc-%g, mmult-%g, mana-%g, mcost-%g", i, numCalc, stkLevel[i], numHealItemVal, numDelta, (numCalc*(stkLevel[i]) + numHealItemVal),numManaMult,UnitMana("player"),spellMana[i]));
-					
+
 					if ((i == highrank) or (ranklevels[i+1] > UnitLevel("player"))) then rankpicked = i; break
 					elseif (lvlmatters and (UnitLevel(target) + 10 < ranklevels[i+1])) then rankpicked = i; break
 					elseif ((numManaMult * spellMana[i+1]) > UnitMana("player")) then rankpicked = i; break  -- next level spell is too much mana, so cast this one
 					elseif (numDelta <= (numCalc*(stkLevel[i]) + numHealItemVal)) then rankpicked = MSaver_CalcOverhealRank(highrank,i,varOverheal); break
 					elseif (i == highrank) then rankpicked = i; break
-					end	
+					end
 				end
-				if (rankpicked) then 
+				if (rankpicked) then
 					if (rankpicked > 7) then rankpicked = rankpicked - 7; strSpell = MANASAVE_SPELL_GRTHEAL;
 					elseif (rankpicked > 3) then rankpicked = rankpicked - 3; strSpell = MANASAVE_SPELL_HEAL;
 					else strSpell = MANASAVE_SPELL_LESSHEAL; end
 					CastSpell(ManaSave_PlayerSpells[strSpell][rankpicked],"spell");
 					--CastSpellByName(strSpell.."("..MANASAVE_RANK.." "..rankpicked..")");
 					SpellTargetUnit(target);
-					MSaver_PostSpellInChat(target, strSpell, rankpicked);			
+					MSaver_PostSpellInChat(target, strSpell, rankpicked);
 				end
-			end	
+			end
 		end
 	else  -- handle "normal" spells... this is a copy/paste job so see comments above.
 		if ((UnitHealth(target) < 101) and (UnitHealthMax(target) ~= UnitHealth(target))) then -- HP info is only %, not absolute value
 		--if (not (UnitInParty(target) or UnitInRaid(target) or MSaver_IsPartyRaidPet(target) or (target=="player"))
-		--	and (UnitHealthMax(target) ~= UnitHealth(target))) then 
+		--	and (UnitHealthMax(target) ~= UnitHealth(target))) then
 			--DEFAULT_CHAT_FRAME:AddMessage("Thinks we don't have health data");
 			if(lvlmatters) then
-				for i=highrank,1,-1 do 
-					if ((UnitLevel(target) >= ranklevels[i]-10) and (ranklevels[i] <= UnitLevel("player"))) then 
+				for i=highrank,1,-1 do
+					if ((UnitLevel(target) >= ranklevels[i]-10) and (ranklevels[i] <= UnitLevel("player"))) then
 						MSaver_FindHighSpellMana(i,strSpell,target)
 						break;
 					end;
@@ -746,19 +764,19 @@ function MSaver(strSpell, numRank, overheal, targ)
 					local numManaMult = MSaver_CalcTalentsLessManaPercent(strSpell);
 					--DEFAULT_CHAT_FRAME:AddMessage(string.format("numDelta - %g", numDelta));
 					--DEFAULT_CHAT_FRAME:AddMessage(string.format("Lvl-%d, Mult-%g, stkLev-%g, item-%g, numD-%g, calc-%g, mmult-%g, mana-%g, mcost-%g", i, numCalc, stkLevel[i], numHealItemVal, numDelta, (numCalc*(stkLevel[i]) + numHealItemVal),numManaMult,UnitMana("player"),spellMana[i]));
-					
+
 					if ((i == highrank) or (ranklevels[i+1] > UnitLevel("player"))) then rankpicked = i; break
 					elseif (lvlmatters and (UnitLevel(target) + 10 < ranklevels[i+1])) then rankpicked = i; break
 					elseif ((numManaMult * spellMana[i+1]) > UnitMana("player")) then rankpicked = i; break  -- next level spell is too much mana, so cast this one
 					elseif (numDelta <= (numCalc*(stkLevel[i]) + numHealItemVal)) then rankpicked = MSaver_CalcOverhealRank(highrank,i,varOverheal); break
 					elseif (i == highrank) then rankpicked = i; break
-					end	
+					end
 				end
-				if (rankpicked) then 
+				if (rankpicked) then
 					CastSpell(ManaSave_PlayerSpells[strSpell][rankpicked],"spell");
 					--CastSpellByName(strSpell.."("..MANASAVE_RANK.." "..rankpicked..")");
 					SpellTargetUnit(target);
-					MSaver_PostSpellInChat(target, strSpell, rankpicked);			
+					MSaver_PostSpellInChat(target, strSpell, rankpicked);
 				end
 			end
 		end
