@@ -83,7 +83,7 @@ local healmana = {
 
 -- Library of Talents with bonus healing values, numbers are percent bonus to heal
 local talentpercentbonus = {
-	[MANASAVE_TALENT_GENESIS] = {["Spells"] = {MANASAVE_SPELL_REJUVENATION, MANASAVE_SPELL_REGROWTH},["Ranks"] = {5, 10, 15}},
+	[MANASAVE_TALENT_GENESIS] = {["Spells"] = {"All"},["Ranks"] = {5, 10, 15}},
 	[MANASAVE_TALENT_GIFTNATURE] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_HEALLIGHT] = {["Spells"] = {MANASAVE_SPELL_HOLYLIGHT,MANASAVE_SPELL_FLASHOFLIGHT},["Ranks"] = {4,8,12}},
 	[MANASAVE_TALENT_IMPRENEW] = {["Spells"] = {MANASAVE_SPELL_RENEW},["Ranks"] = {5,10,15}},
