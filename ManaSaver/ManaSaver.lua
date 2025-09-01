@@ -30,8 +30,8 @@ boolFirstMSaverCall = true;
 local healvalues = {
     -- Updated Healing Touch medians to Turtle WoW values (median heal per rank).
     [MANASAVE_SPELL_HEALTOUCH] = {44,100,219,404,633,818,1028,1313,1656,2060,2472},
-	[MANASAVE_SPELL_REGROWTH] = {91,176,257,339,431,543,685,857,1061},
-	[MANASAVE_SPELL_REJUVENATION] = {32,56,116,180,244,304,388,488,608,756,888},
+	[MANASAVE_SPELL_REGROWTH] = {191,346,507,669,841,1063,1345,1677,2081},
+	[MANASAVE_SPELL_REJUVENATION] = {36,60,120,180,246,306,390,492,612,756,888},
 	[MANASAVE_SPELL_LESSHEAL] = {50,78,146},
 	[MANASAVE_SPELL_HEAL] = {318,460,604,758},
 	[MANASAVE_SPELL_GRTHEAL] = {956,1219,1523,1902,2080},
@@ -65,9 +65,7 @@ local heallevels = {
 
 -- The cost of each spell level in mana
 local healmana = {
-    -- Adjust Healing Touch rank 1 mana cost (25 instead of 30) for Turtle WoW.
     [MANASAVE_SPELL_HEALTOUCH] = {25,55,110,185,270,335,405,495,600,720,800},
-    -- Adjust Regrowth mana costs (-20% as per Turtle WoW patch 1.17.2).
     [MANASAVE_SPELL_REGROWTH] = {96,164,224,280,336,408,492,592,704},
 	[MANASAVE_SPELL_REJUVENATION] = {25,40,75,105,135,160,195,235,280,335,360},
 	[MANASAVE_SPELL_LESSHEAL] = {25,45,75},
