@@ -455,7 +455,11 @@ function MSaver_CalcTalentsLessManaPercent(strSpell)
 			end
 		end
 	end
+
 	--DEFAULT_CHAT_FRAME:AddMessage(string.format("Percent less mana is - %g",(1 - (numManaPercent*0.01))));
+	if (strSpell == MANASAVE_SPELL_REJUVENATION or strSpell == MANASAVE_SPELL_REGROWTH) and MSaver_IsTreeOfLife() then
+		numManaPercent = numManaPercent + 20
+	end
 
 	-- Check to see if the user has enabled talent calculations to be included
 	if ManaSaverSV.IncTalents then
@@ -649,6 +653,17 @@ function MSaver_ComputeEfficiency(spellKey, rankIndex)
 end
 
 
+function MSaver_IsTreeOfLife()
+    for i = 1, 40 do
+        local name = UnitBuff("player", i)
+        if not name then break end
+        if name == "Tree of Life Form" then
+            return true
+        end
+    end
+    return false
+end
+
 -- **************************************************
 -- *********** Actual MSaver Called Functions *******
 -- **************************************************
@@ -689,6 +704,13 @@ function MSaver(strSpell, numRank, overheal, targ)
 	else
 		numHealItemVal = 0;
 	end
+
+	-- Include Tree of Life spirit bonus if applicable
+	if MSaver_IsTreeOfLife()
+		numHealItemVal = numHealItemVal + 0.20 * ManaSaverSV.PlusSpirit
+	 end
+
+
 	-- Include Spiritual Guidance if applicable
 	numHealItemVal = numHealItemVal + (MSaver_CalcTalentsSpiritGuidance());
 
