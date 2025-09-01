@@ -27,7 +27,8 @@ boolFirstMSaverCall = true;
 -- Healing Spells, the median amount healed by any spell level, or
 -- the minimum amount for heal over time spells
 local healvalues = {
-	[MANASAVE_SPELL_HEALTOUCH] = {50,100,219,404,633,818,1028,1313,1656,2060,2475},
+    -- Updated Healing Touch medians to Turtle WoW values (median heal per rank).
+    [MANASAVE_SPELL_HEALTOUCH] = {44,100,219,404,633,818,1028,1313,1656,2060,2472},
 	[MANASAVE_SPELL_REGROWTH] = {91,176,257,339,431,543,685,857,1061},						
 	[MANASAVE_SPELL_REJUVENATION] = {32,56,116,180,244,304,388,488,608,756,888},			
 	[MANASAVE_SPELL_LESSHEAL] = {50,78,146},
@@ -63,8 +64,10 @@ local heallevels = {
 
 -- The cost of each spell level in mana
 local healmana = {
-	[MANASAVE_SPELL_HEALTOUCH] = {30,55,110,185,270,335,405,495,600,720,800},
-	[MANASAVE_SPELL_REGROWTH] = {120,205,280,350,420,510,615,740,880},
+    -- Adjust Healing Touch rank 1 mana cost (25 instead of 30) for Turtle WoW.
+    [MANASAVE_SPELL_HEALTOUCH] = {25,55,110,185,270,335,405,495,600,720,800},
+    -- Adjust Regrowth mana costs (-20% as per Turtle WoW patch 1.17.2).
+    [MANASAVE_SPELL_REGROWTH] = {96,164,224,280,336,408,492,592,704},
 	[MANASAVE_SPELL_REJUVENATION] = {25,40,75,105,135,160,195,235,280,335,360},
 	[MANASAVE_SPELL_LESSHEAL] = {25,45,75},
 	[MANASAVE_SPELL_HEAL] = {155,205,255,305},
@@ -81,7 +84,10 @@ local healmana = {
 
 -- Library of Talents with bonus healing values, numbers are percent bonus to heal
 local talentpercentbonus = {
-	[MANASAVE_TALENT_IMPREJUVE] = {["Spells"] = {MANASAVE_SPELL_REJUVENATION},["Ranks"] = {5,10,15}},
+    --[MANASAVE_TALENT_IMPREJUVE] = {-- Improved Rejuvenation talent removed in Turtle WoW
+    --    ["Spells"] = {MANASAVE_SPELL_REJUVENATION},
+    --    ["Ranks"] = {5,10,15}
+    --},
 	[MANASAVE_TALENT_GIFTNATURE] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_HEALLIGHT] = {["Spells"] = {MANASAVE_SPELL_HOLYLIGHT,MANASAVE_SPELL_FLASHOFLIGHT},["Ranks"] = {4,8,12}},
 	[MANASAVE_TALENT_IMPRENEW] = {["Spells"] = {MANASAVE_SPELL_RENEW},["Ranks"] = {5,10,15}},
@@ -92,7 +98,8 @@ local talentpercentbonus = {
 
 -- Library of Talents which lessen the mana cost of certain spells
 local talentlessmana = {
-	[MANASAVE_TALENT_TRANQSPIRIT] = {["Spells"] = {MANASAVE_SPELL_HEALTOUCH},["Ranks"] = {2,4,6,8,10}},
+    -- Tranquil Spirit now affects Healing Touch and Regrowth in Turtle WoW.
+    [MANASAVE_TALENT_TRANQSPIRIT] = {["Spells"] = {MANASAVE_SPELL_HEALTOUCH, MANASAVE_SPELL_REGROWTH},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_IMPHEALING] = {["Spells"] = {MANASAVE_SPELL_LESSHEAL,MANASAVE_SPELL_HEAL,MANASAVE_SPELL_GRTHEAL},["Ranks"] = {5,10,15}},
 	[MANASAVE_TALENT_TIDALFOCUS] = {["Spells"] = {"All"},["Ranks"] = {1,2,3,4,5}},
 };
