@@ -1,5 +1,0 @@
-## Interface: 10900
-## Title: |cFF006699UUI -|r Call To Arms
-## Notes: P7.B4
-## SavedVariables: CTA_SavedVariables
-CallToArms.xml

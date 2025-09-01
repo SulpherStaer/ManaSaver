@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="Toggle PVP" header="PVPCOOLDOWNHEADER">
-		PVPCooldown_Toggle();
-	</Binding>
-</Bindings>

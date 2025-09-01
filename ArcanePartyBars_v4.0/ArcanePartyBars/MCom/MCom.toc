@@ -1,8 +1,0 @@
-## Interface: 11200
-## Title: MCom
-## Title-deDE: MCom
-## Notes: Set of utility functions to simplify addon creation
-## Notes-deDE: Eine Funktionsbibliothek zur einfacheren Erstellung von AddOns.
-## OptionalDeps: Satellite, Cosmos, Khaos, myAddOns
-## RequiredDeps: Sea
-MCom.xml

@@ -1,6 +1,0 @@
-## Interface: 10900
-## Title: ActionBarOrganizer
-## Notes: Overview over all Actionbars
-## SavedVariables: ABO_CONF
-## Dependencies:
-ActionBarOrganizer.xml

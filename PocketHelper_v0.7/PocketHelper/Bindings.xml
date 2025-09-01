@@ -1,7 +1,0 @@
-<Bindings>
-  <Binding name="TOGGLEPOCKETHELPER"
-	   description="Toggle pockethelper hide"
-	   header="POCKETHELPER">
-    PocketHelper.ToggleHidden();
-  </Binding>
-</Bindings>

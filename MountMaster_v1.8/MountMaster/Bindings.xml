@@ -1,5 +1,0 @@
-<Bindings>
-    <Binding name="Mount" header="MOUNTMASTER">
-        MM_Mount();
-    </Binding>
-</Bindings>

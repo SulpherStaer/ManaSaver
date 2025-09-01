@@ -1,7 +1,0 @@
-## Interface: 11200
-## Author: Kepek
-## Title: ShadowCancel
-## Notes: Cancels Shadowform upon casting a Holy spell
-## Dependencies: Ace
-ShadowCancelLocals.lua
-ShadowCancel.lua

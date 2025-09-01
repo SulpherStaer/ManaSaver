@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="Toggle View" header="AceNameToggle">
-		AceNameToggle:NameSwitch()
-	</Binding>
-</Bindings>

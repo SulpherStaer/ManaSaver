@@ -1,4 +1,0 @@
-Calcultor [v11000.0]
-
-/calc ................ toggle calculator
-/calculator .......... toggle calculator

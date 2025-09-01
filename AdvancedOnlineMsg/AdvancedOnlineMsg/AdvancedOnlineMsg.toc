@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: Advanced Online Msg
-## Author: Noja@EU-Lothar
-## SavedVariables: AOnlineM_Save
-AdvancedOnlineMsg.xml

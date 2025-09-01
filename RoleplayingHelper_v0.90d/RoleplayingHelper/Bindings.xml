@@ -1,8 +1,0 @@
-<Bindings>
-	<Binding name="RPH_TOGGLE" header="RPH">
-        RPH_Toggle()
-	</Binding>
-	<Binding name="RPH_CONFIG" header="RPH">
-        ShowUIPanel(RPConfigFrame)
-  </Binding>
-</Bindings>

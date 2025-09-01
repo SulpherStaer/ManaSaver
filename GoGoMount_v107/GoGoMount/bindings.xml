@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="GOGONAME" header="GOGOHEADER">
-		GoGo_Go();
-	</Binding>
-</Bindings>

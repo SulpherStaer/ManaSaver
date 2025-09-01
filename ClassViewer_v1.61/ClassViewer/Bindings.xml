@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="CLASSVIEWER"  header="CLASSVIEWERHEADER">
-		ClassV_Toggle();
-	</Binding>
-</Bindings>

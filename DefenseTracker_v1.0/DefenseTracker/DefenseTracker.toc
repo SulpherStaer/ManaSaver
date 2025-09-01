@@ -1,6 +1,0 @@
-## Interface: 11100
-## Title: Defense Tracker
-## Notes: Tracks WorldDef and LocalDef Activity
-## OptionalDeps: myAddOns
-## SavedVariables: DefenseTracker_newSubzones DefenseTracker_config DefenseTracker_unknowns
-DefenseTracker.xml

@@ -1,3 +1,0 @@
-function mrpSaveProfileFromOutfitter(profileName)
-	
-end

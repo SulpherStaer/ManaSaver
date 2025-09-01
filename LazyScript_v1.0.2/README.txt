@@ -1,1 +1,0 @@
-Please extract all the folders into your Addon folder. That is about it =)

@@ -1,9 +1,0 @@
-## Interface: 11200
-## Title: Bongos_XP
-## Notes: A movable experience and reputation bar
-## Author: Tuller
-## Dependencies: Bongos
-## SavedVariablesPerCharacter:  BXPBarSets
-## DefaultState: Disabled
-localization.lua
-bar.lua

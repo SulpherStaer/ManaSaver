@@ -1,5 +1,0 @@
-## Interface: 11200
-## SavedVariables: LPCONFIG, LPSPLIT
-## Title: _LazyPig v1.82
-## Notes:
-LazyPig.xml

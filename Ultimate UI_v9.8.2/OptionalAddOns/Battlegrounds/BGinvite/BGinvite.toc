@@ -1,4 +1,0 @@
-## Interface: 11000
-## SavedVariables: BGvar_save, BGvar_blacklist
-BGinvite.xml
-BGInviteUI.xml

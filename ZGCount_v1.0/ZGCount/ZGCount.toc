@@ -1,4 +1,0 @@
-## Interface: 11200
-## Title: ZGCount
-## Notes: Movable coin/bijou counter
-ZGCount.xml

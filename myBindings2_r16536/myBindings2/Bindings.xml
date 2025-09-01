@@ -1,5 +1,0 @@
-<Bindings>
-    <Binding name="MYBINDINGS2_OPEN" header="MYBINDINGS2">
-        myBindings2:OpenInterface()
-    </Binding>
-</Bindings>

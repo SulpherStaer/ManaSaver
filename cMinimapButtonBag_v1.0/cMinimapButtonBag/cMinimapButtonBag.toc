@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: cMinimapButtonBag
-## Notes: An addon that allows you to access your bags/keyring from a minimap-button.
-
-cMinimapButtonBag.xml

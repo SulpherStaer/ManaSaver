@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="LOOTHOGTOGGLE" header="LOOTHOG">
-        loothog_toggle_visible();
-	</Binding>
-</Bindings>

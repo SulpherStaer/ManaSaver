@@ -1,7 +1,0 @@
-## Interface: 11200
-## Title: IsCasting
-## Notes: Library that tracks your casting details.
-## Author: Karl Isenberg
-## OptionalDeps:
-## RequiredDeps: Sea
-IsCasting.xml

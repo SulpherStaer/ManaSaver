@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: LilAddonMessage
-## Notes: Mod to capture and display Addon Messages
-## SavedVariables: LilAddonMessageRecording
-LilAddonMessage.xml

@@ -1,4 +1,0 @@
-## Interface: 11000
-## Title: XsorLib
-## Notes: General function used by Xsor's addons
-XsorLib.xml

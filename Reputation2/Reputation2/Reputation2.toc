@@ -1,5 +1,0 @@
-## Interface: 11000
-## Title: Reputation2
-## Author: Gerhard Karnik. Reputation originally by Egris & Karmond
-## Notes: Shows Reputation numbers in chat & Reputation panel
-Reputation2.xml

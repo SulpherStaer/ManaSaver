@@ -1,5 +1,0 @@
-<Bindings>
-  <Binding name="RAIDSUMMON" description="Perform Summoning Request" header="RAIDSUMMON">
-    rsm.SummonAuto();
-  </Binding>
-</Bindings>

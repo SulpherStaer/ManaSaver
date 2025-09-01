@@ -1,8 +1,0 @@
-## Interface: 11200
-## Title: Satellite
-## Notes: A tool for slash command enchancement.
-## Author: Karl Isenberg
-## OptionalDeps: 
-## RequiredDeps: Sea
-## SavedVariablesPerCharacter: Satellite_Config
-Satellite.xml

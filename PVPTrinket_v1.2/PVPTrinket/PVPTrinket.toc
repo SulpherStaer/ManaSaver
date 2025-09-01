@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: PVPTrinket |cff3fcf29v1.2|r 
-## SavedVariables: PvPTrinket
-## Author: hikok
-Pvptrinket.xml

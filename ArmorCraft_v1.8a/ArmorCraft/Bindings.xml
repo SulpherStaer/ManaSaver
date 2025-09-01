@@ -1,5 +1,0 @@
-<Bindings>
-    <Binding name="ARMORCRAFTFRAME" description="Toggle ArmorCraft window" header="ARMORCRAFT">
-        ArmorCraft_command();
-    </Binding>
-</Bindings>

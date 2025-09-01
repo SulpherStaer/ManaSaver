@@ -1,5 +1,0 @@
-BGM_LOADED = "Addon BgMap Loaded (/bgm)"
-BGM_HELP_MSG = "This addon automatically open the BG map when you join the battle."
-BGM_WARSONG = "Warsong Gulch"
-BGM_ALTERAC = "Alterac Valley"
-BGM_ARATHI = "Arathi Bassin"

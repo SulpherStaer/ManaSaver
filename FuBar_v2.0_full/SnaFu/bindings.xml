@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="SNAFUPETFUNC" header="SNAFU">
-        SnaFu:PetKeyBinding()
-	</Binding>
-</Bindings>

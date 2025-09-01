@@ -1,2 +1,0 @@
-Unpack addons  to ..\World of Warcraft\Interface\AddOns
-In game addon selection check "Load outdated addons" option.

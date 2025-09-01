@@ -1,6 +1,0 @@
-## Interface: 11200
-## Title: TalentWhisper
-## Notes: Addon to whisper your build to a player.
-## Dependencies:
-TalentWhisper.lua
-TalentWhisper.xml

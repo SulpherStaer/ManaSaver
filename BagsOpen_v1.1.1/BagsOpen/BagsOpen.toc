@@ -1,4 +1,0 @@
-## Interface: 11200
-## Title: BagsOpen
-## Notes: Opens your bags again after viewing the main map.
-BagsOpen.xml

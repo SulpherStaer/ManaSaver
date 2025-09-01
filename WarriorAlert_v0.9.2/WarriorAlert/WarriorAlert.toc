@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: WarriorAlert
-## Notes: WarriorAlert by BAW
-## SavedVariables: WarriorAlert_Config
-WarriorAlert.xml

@@ -1,1 +1,0 @@
-Displays your current attack power in a small box. Click to drag and use "/moveattack" to lock or unlock its position.

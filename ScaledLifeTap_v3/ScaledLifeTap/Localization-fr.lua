@@ -1,6 +1,0 @@
-﻿if ( GetLocale() == "frFR") then
-    SCALEDLIFETAP_LIFETAPSPELL = "Connexion";
-    SCALEDLIFETAP_LIFETAPTALENT = "Connexion am\195\169lior\195\169e";
-    SCALEDLIFETAP_RANKTEXT = "Rang";
-    SCALEDLIFETAP_RANKREGEXP = "^" .. SCALEDLIFETAP_RANKTEXT .. " (.*).*";
-end

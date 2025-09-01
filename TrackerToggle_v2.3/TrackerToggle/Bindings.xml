@@ -1,5 +1,0 @@
-<Bindings>
-	<Binding name="CYCLETRACKING" header="TRACKERTOGGLE"> 
-		TrackerToggle.cycleTracking();
-	</Binding>
-</Bindings>

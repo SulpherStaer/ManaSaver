@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: Phoenix DevPad
-## Notes: Addon Developer Tool
-## SavedVariables: Phoenix_Config
-Phoenix.xml

@@ -1,5 +1,0 @@
-## Interface: 11200
-## Title: ArchiTotem
-## Notes: All totems on 4 barslots!
-## SavedVariablesPerCharacter: ArchiTotem_TotemData, ArchiTotem_Options
-ArchiTotem.xml
