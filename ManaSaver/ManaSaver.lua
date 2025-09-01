@@ -10,6 +10,7 @@
 local playerIds = {player = 0, party1 = 1, party2 = 2, party3 = 3, party4 = 4}
 local playerUnits = {[0] = 'player', 'party1', 'party2', 'party3', 'party4'};
 local err_event = nil;
+ManaSaver_LastEfficiency = nil
 
 
 -- Player's Talent collection
@@ -219,6 +220,7 @@ function MSaver_writeLine(s)
 end
 
 function MSaver_PostSpellInChat(vartarget, strSpell, numRank)
+	MSaver_ComputeEfficiency(strSpell, numRank)
 -- Function posts spell information to the chat window, either using SpeakSpell or the error message
 
 
@@ -294,7 +296,12 @@ function MSaver_SpeakSpell(varTarget, strSpell, numRank)
 
 	-- ManaSaverq Self mode
 	if (ManaSaverSV.QuietMode == "Self") then
-		DEFAULT_CHAT_FRAME:AddMessage(MANASAVE_FONT_LTYELLOW..read)
+		local outputLine = MANASAVE_FONT_LTYELLOW .. read
+		if ManaSaver_LastEfficiency then
+			outputLine = outputLine .. string.format("1 mp healed %.2f ", ManaSaver_LastEfficiency)
+		end
+		DEFAULT_CHAT_FRAME:AddMessage(outputLine)
+
 	-- ManaSaverq Default or Off mode
 	elseif (ManaSaverSV.QuietMode == "Default") or (ManaSaverSV.QuietMode == "Off") then
 		-- Post to raid if target is in raid or is raid pet
@@ -608,6 +615,39 @@ function MSaver_IsPartyRaidPet(varTarget)
 	--if boolReturn then DEFAULT_CHAT_FRAME:AddMessage("Party pet");
 	--	else DEFAULT_CHAT_FRAME:AddMessage("Not a party pet"); end
 	return boolReturn
+end
+
+
+-- Computes the mana-per-heal efficiency for a given spell key and rank.
+-- Uses existing median/min heal tables and talent multipliers already in ManaSaver.
+-- Returns: efficiency (number) or nil if inputs are missing/invalid.
+function MSaver_ComputeEfficiency(spellKey, rankIndex)
+    local spellHealValues = healvalues[spellKey]
+    local spellManaValues = healmana[spellKey]
+
+    if spellHealValues == nil or spellManaValues == nil then
+        ManaSaver_LastEfficiency = nil
+        return nil
+    end
+    if spellHealValues[rankIndex] == nil or spellManaValues[rankIndex] == nil then
+        ManaSaver_LastEfficiency = nil
+        return nil
+    end
+
+    local healingMultiplier = MSaver_CalcTalentsHealPercent(spellKey) or 1
+    local manaMultiplier    = MSaver_CalcTalentsLessManaPercent(spellKey) or 1
+
+    local predictedHeal = spellHealValues[rankIndex] * healingMultiplier
+    local predictedMana = spellManaValues[rankIndex] * manaMultiplier
+
+    if predictedHeal <= 0 then
+        ManaSaver_LastEfficiency = nil
+        return nil
+    end
+
+	local efficiencyHPPerMana = predictedHeal / predictedMana
+	ManaSaver_LastEfficiency = efficiencyHPPerMana
+	return efficiencyHPPerMana
 end
 
 
