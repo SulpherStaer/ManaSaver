@@ -706,7 +706,7 @@ function MSaver(strSpell, numRank, overheal, targ)
 	end
 
 	-- Include Tree of Life spirit bonus if applicable
-	if MSaver_IsTreeOfLife()
+	if MSaver_IsTreeOfLife() then
 		numHealItemVal = numHealItemVal + 0.20 * ManaSaverSV.PlusSpirit
 	 end
 
