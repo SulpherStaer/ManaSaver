@@ -2,8 +2,9 @@
 ## Title: ManaSaver
 ## Notes: ManaSaving Mod for healing spells
 ## OptionalDeps: BonusScanner
-## Dependencies: 
+## Dependencies:
 ## SavedVariables: ManaSaverSV
+## Version: 2.5.0
 ManaSaver.xml
 ManaSaverOptions.xml
 ManaSaverButton.xml

@@ -429,23 +429,6 @@ end
 -- This is the function that gathers information about the players talents
 -- and determines if the talents yield any reduction in healing spell mana cost
 -- Returns the actual multiplier, so a 2% reduction returns 0.98
-
-
---- helper function for MSaver_CalcTalentsLessManaPercent
-
-local function MSaver_IsTreeOfLife()
-    for i = 1, 40 do
-        local name = UnitBuff("player", i)
-        if not name then break end
-        if name == "Tree of Life Form" then
-            return true
-        end
-    end
-    return false
-end
-
-
-
 function MSaver_CalcTalentsLessManaPercent(strSpell)
 	local numManaPercent = 0;
 	local varTalentDetail
@@ -466,9 +449,6 @@ function MSaver_CalcTalentsLessManaPercent(strSpell)
 				end
 			end
 		end
-	end
-	if (strSpell == MANASAVE_SPELL_REJUVENATION or strSpell == MANASAVE_SPELL_REGROWTH) and MSaver_IsTreeOfLife() then
-		numManaPercent = numManaPercent + 20
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage(string.format("Percent less mana is - %g",(1 - (numManaPercent*0.01))));
 
