@@ -29,8 +29,9 @@ boolFirstMSaverCall = true;
 -- the minimum amount for heal over time spells
 local healvalues = {
     -- Updated Healing Touch medians to Turtle WoW values (median heal per rank).
-    [MANASAVE_SPELL_HEALTOUCH] = {52,113,244,446,695,895,1121,1428,1797,2231,2678},
-	[MANASAVE_SPELL_REGROWTH] = {191,346,507,669,841,1063,1345,1677,2081},
+    [MANASAVE_SPELL_HEALTOUCH] = {37,88,195,363,572,742,936,1199,1516,1890,2267},
+	[MANASAVE_SPELL_REGROWTH] = {84,164,240,318,405,511,646,809,1003},
+	[MANASAVE_SPELL_REGROWTH_HOT] = {100,170,250,330,410,520,660,820,1020},
 	[MANASAVE_SPELL_REJUVENATION] = {36,60,120,180,246,306,390,492,612,756,888},
 	[MANASAVE_SPELL_LESSHEAL] = {50,78,146},
 	[MANASAVE_SPELL_HEAL] = {318,460,604,758},
@@ -707,7 +708,7 @@ function MSaver(strSpell, numRank, overheal, targ)
 
 	-- Include Tree of Life spirit bonus if applicable
 	if MSaver_IsTreeOfLife() then
-		numHealItemVal = numHealItemVal + 0.20 * ManaSaverSV.PlusSpirit
+		numHealItemVal = numHealItemVal + (0.20 * ManaSaverSV.PlusSpirit)
 	 end
 
 
