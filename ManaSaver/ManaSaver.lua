@@ -29,9 +29,8 @@ boolFirstMSaverCall = true;
 -- the minimum amount for heal over time spells
 local healvalues = {
     -- Updated Healing Touch medians to Turtle WoW values (median heal per rank).
-    [MANASAVE_SPELL_HEALTOUCH] = {37,88,195,363,572,742,936,1199,1516,1890,2267},
-	[MANASAVE_SPELL_REGROWTH] = {84,164,240,318,405,511,646,809,1003},
-	[MANASAVE_SPELL_REGROWTH_HOT] = {100,170,250,330,410,520,660,820,1020},
+    [MANASAVE_SPELL_HEALTOUCH] = {52,113,244,446,695,895,1121,1428,1797,2231,2678},
+	[MANASAVE_SPELL_REGROWTH] = {184,334,490,648,815,1031,1306,1629,2023},
 	[MANASAVE_SPELL_REJUVENATION] = {36,60,120,180,246,306,390,492,612,756,888},
 	[MANASAVE_SPELL_LESSHEAL] = {50,78,146},
 	[MANASAVE_SPELL_HEAL] = {318,460,604,758},
@@ -84,13 +83,13 @@ local healmana = {
 
 -- Library of Talents with bonus healing values, numbers are percent bonus to heal
 local talentpercentbonus = {
-	[MANASAVE_TALENT_GENESIS] = {["Spells"] = {MANASAVE_SPELL_REJUVENATION, MANASAVE_SPELL_REGROWTH},["Ranks"] = {5, 10, 15}},
+	[MANASAVE_TALENT_GENESIS] = {["Spells"] = {MANASAVE_SPELL_REJUVENATION, MANASAVE_SPELL_REGROWTH},["Ranks"] = {2.5, 5, 7.5}},
 	[MANASAVE_TALENT_GIFTNATURE] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_HEALLIGHT] = {["Spells"] = {MANASAVE_SPELL_HOLYLIGHT,MANASAVE_SPELL_FLASHOFLIGHT},["Ranks"] = {4,8,12}},
 	[MANASAVE_TALENT_IMPRENEW] = {["Spells"] = {MANASAVE_SPELL_RENEW},["Ranks"] = {5,10,15}},
 	[MANASAVE_TALENT_SPIRITHEAL] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_PURIFICATION] = {["Spells"] = {"All"},["Ranks"] = {2,4,6,8,10}},
-	[MANASAVE_TALENT_SPIRITGUIDANCE] = {["Spells"] = {"All"},["Ranks"] = {0.05,0.10,0.15,0.20,0.25}},
+	[MANASAVE_TALENT_SPIRITGUIDANCE] = {["Spells"] = {"Special"},["Ranks"] = {0.05,0.10,0.15,0.20,0.25}},
 	[MANASAVE_TALENT_IMPRTRANQ] = {["Spells"] = {MANASAVE_SPELL_TRANQUILITY},["Ranks"] = {20, 40}},
 };
 
@@ -297,7 +296,8 @@ function MSaver_SpeakSpell(varTarget, strSpell, numRank)
 	if (ManaSaverSV.QuietMode == "Self") then
 		local outputLine = MANASAVE_FONT_LTYELLOW .. read
 		if ManaSaver_LastEfficiency then
-			outputLine = outputLine .. string.format(" 1 mp healed %.2f hp", ManaSaver_LastEfficiency)
+			local e = ManaSaver_LastEfficiency
+			outputLine = outputLine .. string.format(" %.1f%% mana -> %.1f%% HP", e.pctMana, e.pctHealth)
 		end
 		DEFAULT_CHAT_FRAME:AddMessage(outputLine)
 
@@ -627,38 +627,51 @@ end
 function MSaver_ComputeEfficiency(spellKey, rankIndex)
     local spellHealValues = healvalues[spellKey]
     local spellManaValues = healmana[spellKey]
+    if not spellHealValues or not spellManaValues then ManaSaver_LastEfficiency=nil; return nil end
+    if not spellHealValues[rankIndex] or not spellManaValues[rankIndex] then ManaSaver_LastEfficiency=nil; return nil end
 
-    if spellHealValues == nil or spellManaValues == nil then
-        ManaSaver_LastEfficiency = nil
-        return nil
-    end
-    if spellHealValues[rankIndex] == nil or spellManaValues[rankIndex] == nil then
-        ManaSaver_LastEfficiency = nil
-        return nil
-    end
+    local healMult = MSaver_CalcTalentsHealPercent(spellKey) or 1
+    local manaMult = MSaver_CalcTalentsLessManaPercent(spellKey) or 1
 
-    local healingMultiplier = MSaver_CalcTalentsHealPercent(spellKey) or 1
-    local manaMultiplier    = MSaver_CalcTalentsLessManaPercent(spellKey) or 1
+    -- If you have a Regrowth split, swap in your split calc here; else keep generic:
+    local predictedHeal = spellHealValues[rankIndex] * healMult
+    local predictedMana = spellManaValues[rankIndex] * manaMult
+    if predictedHeal <= 0 then ManaSaver_LastEfficiency=nil; return nil end
 
-    local predictedHeal = spellHealValues[rankIndex] * healingMultiplier
-    local predictedMana = spellManaValues[rankIndex] * manaMultiplier
+    -- Player max mana (Classic/SoD uses UnitManaMax; Retail uses UnitPowerMax)
+    local maxMana = (UnitManaMax and UnitManaMax("player")) or (UnitPowerMax and UnitPowerMax("player", 0)) or 0
+    if maxMana <= 0 then ManaSaver_LastEfficiency=nil; return nil end
+    local pctMana = (predictedMana / maxMana) * 100
 
-    if predictedHeal <= 0 then
-        ManaSaver_LastEfficiency = nil
-        return nil
-    end
+    -- Target HP context: prefer friendly target, else self
+    local unit = (UnitExists("target") and UnitIsFriend("player","target")) and "target" or "player"
+    local curHP  = UnitHealth(unit) or 0
+    local maxHP  = UnitHealthMax(unit) or 0
+    if maxHP <= 0 then ManaSaver_LastEfficiency=nil; return nil end
 
-	local efficiencyHPPerMana = predictedHeal / predictedMana
-	ManaSaver_LastEfficiency = efficiencyHPPerMana
-	return efficiencyHPPerMana
+    -- Cap overheal at missing health
+    local missing = math.max(maxHP - curHP, 0)
+    local effectiveHeal = math.min(predictedHeal, missing)
+    local pctHealth = (effectiveHeal / maxHP) * 100
+
+    ManaSaver_LastEfficiency = { pctMana = pctMana, pctHealth = pctHealth }
+    return ManaSaver_LastEfficiency
 end
 
 
 function MSaver_IsTreeOfLife()
     for i = 1, 40 do
-        local name = UnitBuff("player", i)
-        if not name then break end
-        if name == "Tree of Life Form" then
+        local a, b = UnitBuff("player", i)
+        if not a and not b then break end
+
+        -- On newer clients: a=name, b=icon. On older: a=icon only.
+        local name  = type(a)=="string" and a or ""
+        local icon  = type(b)=="string" and b or (type(a)=="string" and a or "")
+
+        if name == "Tree of Life Form" or name == "Tree of Life" then
+            return true
+        end
+        if icon ~= "" and string.find(icon, "TreeofLife", 1, true) then
             return true
         end
     end
@@ -705,12 +718,6 @@ function MSaver(strSpell, numRank, overheal, targ)
 	else
 		numHealItemVal = 0;
 	end
-
-	-- Include Tree of Life spirit bonus if applicable
-	if MSaver_IsTreeOfLife() then
-		numHealItemVal = numHealItemVal + (0.20 * ManaSaverSV.PlusSpirit)
-	 end
-
 
 	-- Include Spiritual Guidance if applicable
 	numHealItemVal = numHealItemVal + (MSaver_CalcTalentsSpiritGuidance());
