@@ -49,6 +49,7 @@ MANASAVE_TALENT_IMPRTRANQ = "Improved Tranquility";
 MANASAVE_TALENT_TRANQSPIRIT = "Tranquil Spirit";
 MANASAVE_TALENT_IMPHEALING = "Improved Healing";
 MANASAVE_TALENT_TIDALFOCUS = "Tidal Focus";
+MANASAVE_TALENT_MOONGLOW = "Moonglow";
 -- System responses
 MANASAVE_CHAT_VERSION = "ManaSaver Version NUMVER loaded.";
 MANASAVE_CHAT_QUIETON = "<ManaSaver>: Quiet Mode ON";
