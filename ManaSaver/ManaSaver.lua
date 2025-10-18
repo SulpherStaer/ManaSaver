@@ -99,7 +99,7 @@ local talentlessmana = {
     [MANASAVE_TALENT_TRANQSPIRIT] = {["Spells"] = {MANASAVE_SPELL_HEALTOUCH, MANASAVE_SPELL_REGROWTH},["Ranks"] = {2,4,6,8,10}},
 	[MANASAVE_TALENT_IMPHEALING] = {["Spells"] = {MANASAVE_SPELL_LESSHEAL,MANASAVE_SPELL_HEAL,MANASAVE_SPELL_GRTHEAL},["Ranks"] = {5,10,15}},
 	[MANASAVE_TALENT_TIDALFOCUS] = {["Spells"] = {"All"},["Ranks"] = {1,2,3,4,5}},
-	[MANASAVE_TALENT_TIDALFOCUS] = {["Spells"] = {"All"},["Ranks"] = {3,6,9}},
+	[MANASAVE_TALENT_MOONGLOW] = {["Spells"] = {"All"},["Ranks"] = {3,6,9}},
 };
 
 -- Can't cast Regrowth Rank 10 on a Lv.3 noob now can we?
